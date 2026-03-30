@@ -1,6 +1,6 @@
 from src.models import Apartment, Bill, Parameters, Tenant, Transfer
 
-
+import json
 class Manager:
     def __init__(self, parameters: Parameters):
         self.parameters = parameters 
@@ -23,3 +23,13 @@ class Manager:
             if tenant.apartment not in self.apartments:
                 return False
         return True
+    def get_apartment_costs(self, apartment_key: str, year: int, month: int) -> float:
+        total_cost = 0.0
+        for bill in self.bills:
+            if (
+                bill.apartment_key == apartment_key
+                and bill.year == year
+                and bill.month == month
+            ):
+                total_cost += bill.amount_pl
+        return total_cost
